@@ -19,5 +19,5 @@ def user_input_features(qlist):
 
 
 df = user_input_features(engList)
-st.subheader('User inputs')
-st.write(df)
+# st.subheader('User inputs')
+# st.write(df)
