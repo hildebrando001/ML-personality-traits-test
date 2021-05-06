@@ -1,0 +1,6 @@
+A+
+__pycache__
+.ipynb_checkpoints
+venv
+data-final-full.csv
+data-final.csv

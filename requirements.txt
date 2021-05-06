@@ -1,0 +1,16 @@
+backports.functools-lru-cache==1.5
+beautifulsoup4==4.8.2
+chardet==3.0.4
+gyp==0.1
+html5lib==1.0.1
+lxml==4.5.0
+mercurial==5.3.1
+psutil==5.8.0
+pycairo==1.16.2
+pycrypto==2.6.1
+pyflakes==2.1.1
+PyGObject==3.36.0
+pyxdg==0.26
+six==1.14.0
+soupsieve==1.9.5
+webencodings==0.5.1
