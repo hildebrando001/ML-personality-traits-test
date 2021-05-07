@@ -14,7 +14,7 @@ def get_data(file):
     return data
 
 
-st.sidebar.header('Answer the questions below')
+st.sidebar.header('Answer the questions')
 
 def user_input_features(qlist):
     questionsDict = {}
@@ -27,10 +27,12 @@ def user_input_features(qlist):
 data = get_data("data-final.csv")
 
 
-df = user_input_features(engList)
+df_questions = user_input_features(engList)
 # st.subheader('User inputs')
 st.write(data[:5])
 
-# kmeans = KMeans(n_clusters=5)
-# k_fit = kmeans.fit(data)
+kmeans = KMeans(n_clusters=5)
+k_fit = kmeans.fit(data)
+
+st.write(kmeans.labels_)
 
