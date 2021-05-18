@@ -35,18 +35,19 @@ data = get_data("data-final.csv")
 
 # @st.cache()
 def run_algorithm():
-    kmeans   = KMeans(n_clusters=5, max_iter=10, random_state=1)
-    y_kmeans = kmeans.fit(data) # fit_predict
+    data_sample = data.sample(n=5000, random_state=1)
+    kmeans   = KMeans(n_clusters=5)
+    y_kmeans = kmeans.fit(data_sample) # fit_predict
 
     predict = y_kmeans.labels_
-    data['clusters'] = predict
+    data_sample['clusters'] = predict
 
     st.write(data.head(10))
 
-    # profile_group = y_kmeans.fit_predict(user_inputs)[0]
-    # st.write('Meu grupo de personalidade é ' + profile_group)
+    profile_group = kmeans.predict(user_inputs)[0]
+    st.write(f'Meu grupo de personalidade é {profile_group}')
 
-    data_chart = preper_chart_data(data)
+    data_chart = preper_chart_data(data_sample)
     st.write(data_chart.head(10))
 
 
