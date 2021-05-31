@@ -14,10 +14,10 @@ from joblib import dump, load
 # 
 from questions_lists import engList
 
-st.write("""
-# Five Big Personality Traits
-
-""")
+# st.write("""
+# # Five Big Personality Traits
+# """)
+st.markdown("<h1 style='text-align: center'>Five Big Personality Traits</h1>", unsafe_allow_html=True)
 
 # @st.cache # load data only at the first time
 def get_data(filename):
@@ -51,14 +51,48 @@ fig, ax = plt.subplots(figsize=(12, 3))
 for i in range(5):
     ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
 plt.ylabel("")
+plt.xticks(rotation=0, size=(14))
 # plt.ylim(2, 4)
 plt.legend(['Group 1', 'Group 2', 'Group 3', 'Group 4', 'Group 5'])
 st.write(fig)
+
 
 st.write("""
     All these personality traits are present in each people. The line chart above shows five groups of people, according to the personalty trait level. Answer the questions to see in which group you are.
 """)
 st.markdown("""---""")
+
+
+# @st.cache()
+def run_algorithm():
+    # Analisa predição em toda base de dados
+    # data_sample = data.sample(n=5000, random_state=1) # volume de dados reduzidos para teste
+    # kmeans   = KMeans(n_clusters=5, random_state=0, max_iter=300).fit(data)
+    # y_kmeans = kmeans.fit(data) já rodou na linha acima
+
+    # Utilizando o joblib para gerar arquivo com modelo treinado
+    # dump(kmeans, 'model.joblib')
+
+    # Adiciona os respectivos grupos a cada linha do dataset
+    # predict = kmeans.labels_
+    # data['clusters'] = predict
+
+    # Compara os dados fornecidos pelo usuário aos perfis esbalecidos anteriormente
+    profile_group = model.predict(user_inputs)[0] # kmeans
+    
+    group_ident = f'Personality corresponding to Group {profile_group + 1}'
+    st.markdown(f"<h1 style='text-align: center'>{group_ident}</h1>", unsafe_allow_html=True)
+
+
+    # Gera o gráfico do perfil correspondente
+    fig = px.bar(data_chart_groups, x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[profile_group][1:]))
+    # fig.suptitle(f'Profile Group: {profile_group}')
+    st.write(fig)
+
+
+if st.sidebar.button('Analyse'):
+    run_algorithm()
+
 
 
 # Definindo colunas do layout
@@ -70,8 +104,6 @@ col2.write("""
     People who are low in extraversion (or introverted) tend to be more reserved and have less energy to expend in social settings. Social events can feel draining and introverts often require a period of solitude and quiet in order to 'recharge.'
 """)
 
-# horiz_line = components.html("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """)
-# st.write(horiz_line)
 
 st.markdown("""---""")
 col1, col2 = st.beta_columns([1,3])
@@ -110,92 +142,4 @@ col2.write("""
 
 
 
-# @st.cache()
-def run_algorithm():
-    # Analisa predição em toda base de dados
-    # data_sample = data.sample(n=5000, random_state=1) # volume de dados reduzidos para teste
-    # kmeans   = KMeans(n_clusters=5, random_state=0, max_iter=300).fit(data)
-    # y_kmeans = kmeans.fit(data) já rodou na linha acima
 
-    # Utilizando o joblib para gerar arquivo com modelo treinado
-    # dump(kmeans, 'model.joblib')
-
-    # Adiciona os respectivos grupos a cada linha do dataset
-    # predict = kmeans.labels_
-    # data['clusters'] = predict
-
-    # Compara os dados fornecidos pelo usuário aos perfis esbalecidos anteriormente
-    profile_group = model.predict(user_inputs)[0] # kmeans
-    
-    st.write(f'Meu grupo de personalidade é {profile_group}')
-
-    # Gera o gráfico do perfil correspondente
-    fig = px.bar(data_chart_groups, x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[profile_group][1:]))
-    # fig.suptitle(f'Profile Group: {profile_group}')
-    st.write(fig)
-
-
-    # data_chart = preper_chart_data(data)
-
-
-
-# def preper_chart_data(data):
-    # Selecting columns of each group
-    # col_list = list(data)
-    # ext = col_list[:10]
-    # neu = col_list[10:20]
-    # agr = col_list[20:30]
-    # csn = col_list[30:40]
-    # opn = col_list[40:50]
-
-    # data_total = pd.DataFrame()
-    # data_total['Extroversion'] = data[ext].sum(axis=1)/10
-    # data_total['Neuroticism'] = data[neu].sum(axis=1)/10
-    # data_total['Agreeableness'] = data[agr].sum(axis=1)/10
-    # data_total['Conscientiousness'] = data[csn].sum(axis=1)/10
-    # data_total['Openness'] = data[opn].sum(axis=1)/10
-    # data_total['clusters'] = data['clusters']
-    # return data_total
-
-
-if st.sidebar.button('Analyse'):
-    run_algorithm()
-    
-
-# def analyze_profile(user_inputs):
-#     profile_group = k_fit.predict(user_inputs)
-#     st.write('Meu grupo de personalidade é ' + profile_group)
-
-
-    
-
-
-# def load_chart(data_chart):
-
-
-# plt.style.use('bmh')
-
-# fig, axs = plt.subplots(figsize=(8,5))
-
-# plt.title("")
-# x = data_chart.columns
-# y = data_chart.values.T
-
-
-# st.write(x)
-# st.write(y)
-
-
-# fig = px.bar(data_chart, x=x, y=y)
-# plt.yticks(fontsize=30)
-# plt.xticks(fontsize=20, rotation="vertical")
-# plt.ylim(0, 40)
-# st.write(fig)
-
-    
-
-# data_chart.to_csv("data_chart.csv", index=False)
-
-    # fig, ax = plt.subplots(figsize=(8, 5))
-    # st.pyplot(data_total.all())
-    
