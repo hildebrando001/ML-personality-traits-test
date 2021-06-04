@@ -4,20 +4,18 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import streamlit.components.v1 as components
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
 
 # 
-from questions_lists import engList
+from questions_lists import eng_list, port_list
 
 # st.write("""
 # # Five Big Personality Traits
 # """)
-st.markdown("<h1 style='text-align: center'>Five Big Personality Traits</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center'>Cinco Grandes Traços De Personalidade</h1>", unsafe_allow_html=True)
 
 # @st.cache # load data only at the first time
 def get_data(filename):
@@ -25,7 +23,7 @@ def get_data(filename):
     return data
 
 
-st.sidebar.header('Answer the questions')
+st.sidebar.header('Forneça as respostas')
 
 
 def user_input_features(qlist):
@@ -36,7 +34,7 @@ def user_input_features(qlist):
     return questionsDF
 
 
-user_inputs = user_input_features(engList)
+user_inputs = user_input_features(port_list)
 
 # Carrega modelo treinado
 model = load("model.joblib")
@@ -44,6 +42,7 @@ model = load("model.joblib")
 # data = get_data("data-final.csv")
 
 data_chart_groups = get_data("data_chart_groups.csv")
+data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilidade","Consciência","Abertura"]
 
 # Gráfico de linhas com seaborn
 sns.set_theme(style="darkgrid")
@@ -53,12 +52,12 @@ for i in range(5):
 plt.ylabel("")
 plt.xticks(rotation=0, size=(14))
 # plt.ylim(2, 4)
-plt.legend(['Group 1', 'Group 2', 'Group 3', 'Group 4', 'Group 5'])
+plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
 st.write(fig)
 
 
 st.write("""
-    All these personality traits are present in each people. The line chart above shows five groups of people, according to the personalty trait level. Answer the questions to see in which group you are.
+    Todos esses traços de personalidade estão presentes em cada pessoa. O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo com seu nível de traço de personalidade. Responda às perguntas para ver a qual grupo corresponde ao seu perfil.
 """)
 st.markdown("""---""")
 
@@ -80,7 +79,7 @@ def run_algorithm():
     # Compara os dados fornecidos pelo usuário aos perfis esbalecidos anteriormente
     profile_group = model.predict(user_inputs)[0] # kmeans
     
-    group_ident = f'Personality corresponding to Group {profile_group + 1}'
+    group_ident = f'Seu perfil corresponde ao Grupo {profile_group + 1}'
     st.markdown(f"<h1 style='text-align: center'>{group_ident}</h1>", unsafe_allow_html=True)
 
 
@@ -90,7 +89,7 @@ def run_algorithm():
     st.write(fig)
 
 
-if st.sidebar.button('Analyse'):
+if st.sidebar.button('Analisar Perfil'):
     run_algorithm()
 
 
@@ -100,8 +99,8 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/extroversion.png")
 col2.write("""
-    (Extroversion) - People who are high in extraversion are outgoing and tend to gain energy in social situations. Being around other people helps them feel energized and excited.
-    People who are low in extraversion (or introverted) tend to be more reserved and have less energy to expend in social settings. Social events can feel draining and introverts often require a period of solitude and quiet in order to 'recharge.'
+    (Extroversão) - Pessoas com alto índice de extroversão são extrovertidas e tendem a ganhar energia em situações sociais. Estar perto de outras pessoas os ajuda a se sentirem energizados e animados.
+Pessoas com baixa extroversão (ou introvertidas) tendem a ser mais reservadas e têm menos energia para gastar em ambientes sociais. Os eventos sociais podem parecer exaustivos e os introvertidos costumam exigir um período de solidão e sossego para "recarregar as energias".
 """)
 
 
@@ -111,8 +110,8 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/neuroticism.png")
 col2.write("""
-    (Neuroticism) - Neuroticism is a trait characterized by sadness, moodiness, and emotional instability.
-    Individuals who are high in this trait tend to experience mood swings, anxiety, irritability, and sadness. Those low in this trait tend to be more stable and emotionally resilient.
+    (Neuroticismo) - Neuroticismo é um traço caracterizado por tristeza, mau humor e instabilidade emocional.
+Indivíduos com alto teor dessa característica tendem a sofrer oscilações de humor, ansiedade, irritabilidade e tristeza. Aqueles com baixo nível dessa característica tendem a ser mais estáveis ​​e emocionalmente resilientes.
 """)
 
 st.markdown("""---""")
@@ -120,7 +119,7 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/agreeableness.png")
 col2.write("""
-    (Agreeableness) - This personality dimension includes attributes such as trust, altruism, kindness, affection, and other prosocial behaviors.﻿ People who are high in agreeableness tend to be more cooperative while those low in this trait tend to be more competitive and sometimes even manipulative.
+    (Amabilidade) - Essa dimensão da personalidade inclui atributos como confiança, altruísmo, gentileza, afeto e outros comportamentos pró-sociais. Pessoas com alto nível de gentileza tendem a ser mais cooperativas, enquanto aqueles com baixo nível desse traço tendem a ser mais competitivos e às vezes até manipuladores.
 """)
 
 st.markdown("""---""")
@@ -128,7 +127,7 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/conscientiousness.png")
 col2.write("""
-    (Conscientiousness) - Standard features of this dimension include high levels of thoughtfulness, good impulse control, and goal-directed behaviors.﻿ Highly conscientious people tend to be organized and mindful of details. They plan ahead, think about how their behavior affects others, and are mindful of deadlines.
+    (Consciência) - As características padrão dessa dimensão incluem altos níveis de consideração, bom controle de impulsos e comportamentos direcionados a objetivos. Pessoas altamente conscienciosas tendem a ser organizadas e atentas aos detalhes. Eles planejam com antecedência, pensam sobre como seu comportamento afeta os outros e estão atentos aos prazos.
 """)
 
 st.markdown("""---""")
@@ -136,10 +135,9 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/openness.png")
 col2.write("""
-    This trait features characteristics such as imagination and insight. People who are high in this trait also tend to have a broad range of interests. They are curious about the world and other people and eager to learn new things and enjoy new experiences.
-    People who are high in this trait tend to be more adventurous and creative. People low in this trait are often much more traditional and may struggle with abstract thinking.
+    (Abertura) - Esse traço apresenta características como imaginação e percepção.
+Pessoas com alto valor nesse traço também tendem a ter uma ampla gama de interesses. Eles são curiosos sobre o mundo e outras pessoas e estão ansiosos para aprender coisas novas e desfrutar de novas experiências.
+Pessoas com alto nível desse atributo tendem a ser mais aventureiras e criativas. Pessoas com baixo nível dessa característica costumam ser muito mais tradicionais e podem ter dificuldades com o pensamento abstrato.
 """)
 
-
-
-
+st.write("fonte: https://www.verywellmind.com/")
