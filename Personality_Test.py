@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import streamlit.components.v1 as components
+import plotly.graph_objects as go
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
@@ -24,7 +25,7 @@ def get_data(filename):
 
 
 st.sidebar.header('Forneça as respostas')
-
+st.sidebar.text('(Deslise o ponto para responder)')
 
 def user_input_features(qlist):
     questionsDict = {}
@@ -45,19 +46,33 @@ data_chart_groups = get_data("data_chart_groups.csv")
 data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilidade","Consciência","Abertura"]
 
 # Gráfico de linhas com seaborn
-sns.set_theme(style="darkgrid")
-fig, ax = plt.subplots(figsize=(12, 3))
+# sns.set_theme(style="darkgrid")
+# fig, ax = plt.subplots(figsize=(12, 3))
+# for i in range(5):
+#     ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
+# plt.ylabel("")
+# plt.xticks(rotation=0, size=(14))
+# # plt.ylim(2, 4)
+# plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
+# st.write(fig)
+
+# Gráfico de linhas com plotly
+fig = go.Figure()
 for i in range(5):
-    ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
-plt.ylabel("")
-plt.xticks(rotation=0, size=(14))
-# plt.ylim(2, 4)
-plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
+    fig.add_trace(go.Scatter(x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[i, 1:]), mode='lines', name=f'Grupo {i+1}'))
+fig.update_layout(
+        font=dict(
+            size=15
+        )
+    )
 st.write(fig)
 
 
 st.write("""
-    Todos esses traços de personalidade estão presentes em cada pessoa. O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo com seu nível de traço de personalidade. Responda às perguntas para ver a qual grupo corresponde ao seu perfil.
+    Todos esses traços de personalidade estão presentes em cada pessoa. 
+    O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo 
+    com seu nível de traço de personalidade. Responda às perguntas na barra lateral 
+    para ver a qual grupo corresponde ao seu perfil.
 """)
 st.markdown("""---""")
 
@@ -85,8 +100,17 @@ def run_algorithm():
 
     # Gera o gráfico do perfil correspondente
     fig = px.bar(data_chart_groups, x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[profile_group][1:]))
+    fig.update_layout(
+        font=dict(
+            size=15
+        )
+    )
+   
+
     # fig.suptitle(f'Profile Group: {profile_group}')
     st.write(fig)
+
+
 
 
 if st.sidebar.button('Analisar Perfil'):
