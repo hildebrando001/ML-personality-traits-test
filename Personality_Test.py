@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import streamlit.components.v1 as components
@@ -17,6 +16,7 @@ from questions_lists import eng_list, port_list
 # # Five Big Personality Traits
 # """)
 st.markdown("<h1 style='text-align: center'>Cinco Grandes Traços De Personalidade</h1>", unsafe_allow_html=True)
+
 
 # @st.cache # load data only at the first time
 def get_data(filename):
@@ -61,9 +61,11 @@ fig = go.Figure()
 for i in range(5):
     fig.add_trace(go.Scatter(x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[i, 1:]), mode='lines', name=f'Grupo {i+1}'))
 fig.update_layout(
-        font=dict(
-            size=15
-        )
+    title="",
+    font=dict(size=15),
+    autosize=False,
+    height=250,
+    margin=dict(l=0, r=0, t=30, b=20)
     )
 st.write(fig)
 
@@ -101,9 +103,9 @@ def run_algorithm():
     # Gera o gráfico do perfil correspondente
     fig = px.bar(data_chart_groups, x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[profile_group][1:]))
     fig.update_layout(
-        font=dict(
-            size=15
-        )
+        margin=dict(l=0, r=0, t=30, b=20),
+        font=dict(size=15),
+        xaxis_title="", yaxis_title=""
     )
    
 
