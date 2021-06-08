@@ -66,8 +66,15 @@ fig.update_layout(
     font=dict(size=15),
     autosize=False,
     height=260,
+    xaxis_title="", 
     margin=dict(l=0, r=0, t=30, b=20)
-    )
+)
+fig.update_yaxes(
+    tickvals=[2, 2.5, 3, 3.5, 4],
+    range=[2.3, 3.8]
+)
+
+
 st.write(fig)
 
 
@@ -107,10 +114,14 @@ def run_algorithm():
     fig.update_layout(
         margin=dict(l=0, r=0, t=30, b=20),
         font=dict(size=15),
-        xaxis_title="", yaxis_title=""
+        xaxis_title="", yaxis_title="",
+        autosize=False,
+        height=300,
     )
-   
-
+    fig.update_yaxes(
+        tickvals=[2, 2.5, 3, 3.5, 4],
+        range=[2.3, 3.8]
+    )
     # fig.suptitle(f'Profile Group: {profile_group}')
     st.write(fig)
 
