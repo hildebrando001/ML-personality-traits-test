@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 from sklearn.cluster import KMeans
-import seaborn as sns
 import plotly.express as px
 import streamlit.components.v1 as components
 import plotly.graph_objects as go
@@ -109,8 +108,8 @@ def run_algorithm():
     st.markdown(f"<h2 style='text-align: center'>{group_ident}</h2>", unsafe_allow_html=True)
 
 
-    # Gera o gráfico do perfil correspondente
-    fig = px.bar(data_chart_groups, x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[profile_group][1:]))
+    # Gráfico de área do perfil corespondente
+    fig = px.area(x=list(data_chart_groups.columns[1:]), y=list(data_chart_groups.iloc[profile_group][1:]))
     fig.update_layout(
         margin=dict(l=0, r=0, t=30, b=20),
         font=dict(size=15),
