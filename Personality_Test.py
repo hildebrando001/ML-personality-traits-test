@@ -59,10 +59,10 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # Gráfico de linhas com plotly
 # pegando tamanho da tela
 
-pygame.init()
-info = pygame.display.Info()
-screen_width = info.current_w
-screen_height = info.current_h
+# pygame.init()
+# info = pygame.display.Info()
+screen_width = pygame.display.Info().current_w
+# screen_height = info.current_h
 
 
 # Gráfico
@@ -115,7 +115,7 @@ def run_algorithm():
     profile_group = model.predict(user_inputs)[0] # kmeans
     
     group_ident = f'Seu perfil corresponde ao Grupo {profile_group + 1}'
-    st.markdown(f"<h1 style='text-align: center'>{group_ident}</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center'>{group_ident}</h2>", unsafe_allow_html=True)
 
 
     # Gráfico de área do perfil corespondente
