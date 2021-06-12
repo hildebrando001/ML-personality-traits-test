@@ -6,11 +6,14 @@ import streamlit.components.v1 as components
 import plotly.graph_objects as go
 import pygame # Usado para pegar largura da tela, tefinir tamanho do gráfico
 
+
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
 
 # 
 from questions_lists import eng_list, port_list
+
+pygame.init()
 
 # st.write("""
 # # Five Big Personality Traits
@@ -57,13 +60,9 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # st.write(fig)
 
 # Gráfico de linhas com plotly
+
 # pegando tamanho da tela
-
-# pygame.init()
-# info = pygame.display.Info()
 screen_width = pygame.display.Info().current_w
-# screen_height = info.current_h
-
 
 # Gráfico
 fig = go.Figure()
