@@ -4,16 +4,11 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 import streamlit.components.v1 as components
 import plotly.graph_objects as go
+import re
+from screeninfo import get_monitors
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
-
-# pegando tamanho da tela
-import pygame
-pygame.init()
-info = pygame.display.Info()
-screen_width = info.current_w
-screen_height = info.current_h
 
 # 
 from questions_lists import eng_list, port_list
@@ -62,6 +57,20 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
 # st.write(fig)
 
+
+for monitor_size in get_monitors():
+    print(str(monitor_size))
+
+#'Monitor(x=1366, y=0, width=1920, height=1080, width_mm=553, height_mm=311, name='HDMI-1')'
+
+screen_width = re.findall(r'(?<=width=)[0-9]{2,5}', str(monitor_size))
+screen_width = int(screen_width[0])
+
+st.write(screen_width)
+
+# valor = ("monitor(1920x1080+1920+0")
+
+
 # Gráfico de linhas com plotly
 fig = go.Figure()
 for i in range(5):
@@ -71,7 +80,7 @@ fig.update_layout(
     font=dict(size=15),
     autosize=False,
     height=260,
-    width=screen_width/2,
+    width=int(screen_width)*.36,
     xaxis_title="", 
     margin=dict(l=0, r=0, t=30, b=20)
 )
@@ -123,7 +132,7 @@ def run_algorithm():
         xaxis_title="", yaxis_title="",
         autosize=False,
         height=300,
-        width=screen_width/2,
+        width=int(screen_width)*.36,
     )
     fig.update_yaxes(
         tickvals=[2, 2.5, 3, 3.5, 4],
