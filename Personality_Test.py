@@ -13,8 +13,6 @@ from joblib import dump, load
 # 
 from questions_lists import eng_list, port_list
 
-pygame.init()
-
 # st.write("""
 # # Five Big Personality Traits
 # """)
@@ -62,6 +60,7 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # Gráfico de linhas com plotly
 
 # pegando tamanho da tela
+pygame.display.init()
 screen_width = pygame.display.Info().current_w
 
 # Gráfico
