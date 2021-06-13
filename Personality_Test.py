@@ -60,8 +60,9 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # Gráfico de linhas com plotly
 
 # pegando tamanho da tela
-pygame.display.init()
-screen_width = pygame.display.Info().current_w
+pygame.init()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen_width = screen.get_width()
 
 # Gráfico
 fig = go.Figure()
@@ -72,7 +73,7 @@ fig.update_layout(
     font=dict(size=15),
     autosize=False,
     height=260,
-    width=screen_width/2,
+    width=screen_width*0.36,
     xaxis_title="", 
     margin=dict(l=0, r=0, t=30, b=20)
 )
@@ -124,7 +125,7 @@ def run_algorithm():
         xaxis_title="", yaxis_title="",
         autosize=False,
         height=300,
-        width=screen_width/2,
+        width=screen_width*0.36,
     )
     fig.update_yaxes(
         tickvals=[2, 2.5, 3, 3.5, 4],
