@@ -4,11 +4,16 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 import streamlit.components.v1 as components
 import plotly.graph_objects as go
-import pygame # Usado para pegar largura da tela, tefinir tamanho do gráfico
-
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
+
+# pegando tamanho da tela
+import pygame
+pygame.init()
+info = pygame.display.Info()
+screen_width = info.current_w
+screen_height = info.current_h
 
 # 
 from questions_lists import eng_list, port_list
@@ -58,13 +63,6 @@ data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilida
 # st.write(fig)
 
 # Gráfico de linhas com plotly
-
-# pegando tamanho da tela
-pygame.init()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-screen_width = screen.get_width()
-
-# Gráfico
 fig = go.Figure()
 for i in range(5):
     fig.add_trace(go.Scatter(x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[i, 1:]), mode='lines', name=f'Grupo {i+1}'))
@@ -73,7 +71,7 @@ fig.update_layout(
     font=dict(size=15),
     autosize=False,
     height=260,
-    width=screen_width*0.36,
+    width=screen_width/2,
     xaxis_title="", 
     margin=dict(l=0, r=0, t=30, b=20)
 )
@@ -125,7 +123,7 @@ def run_algorithm():
         xaxis_title="", yaxis_title="",
         autosize=False,
         height=300,
-        width=screen_width*0.36,
+        width=screen_width/2,
     )
     fig.update_yaxes(
         tickvals=[2, 2.5, 3, 3.5, 4],
