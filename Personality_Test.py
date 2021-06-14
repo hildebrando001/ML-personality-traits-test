@@ -16,6 +16,8 @@ from questions_lists import eng_list, port_list
 # st.write("""
 # # Five Big Personality Traits
 # """)
+st.markdown("<h1 style='text-align: center'>Teste De Personalidade</h1>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center'>Abra o menu lateral para analisar seu perfil</h3>", unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center'>Cinco Grandes Traços De Personalidade</h1>", unsafe_allow_html=True)
 
 
@@ -77,19 +79,6 @@ fig.update_yaxes(
 st.plotly_chart(fig,use_container_width=True)
 # st.write(fig)
 
-
-
-# components.html("""
-#     <p style="text-align: justify; font-family:sans-serif; font-size: 1rem; font-weight: 400; color: rgb(38, 39, 48); line-height: 1.6">
-obs = ("""Todos esses traços de personalidade estão presentes em cada pessoa. 
-    O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo 
-    com cada nível dos traços de personalidade. Responda às perguntas na barra lateral 
-    para ver a qual grupo corresponde ao seu perfil.""")
-st.write(f"<p style='text-align: justify'>{obs}</p>", unsafe_allow_html=True)
-    # </p>""", height=100)
-st.markdown("""---""")
-
-
 # @st.cache()
 def run_algorithm():
     # Analisa predição em toda base de dados
@@ -136,6 +125,19 @@ def run_algorithm():
 
 if st.sidebar.button('Analisar Perfil'):
     run_algorithm()
+
+
+
+# components.html("""
+#     <p style="text-align: justify; font-family:sans-serif; font-size: 1rem; font-weight: 400; color: rgb(38, 39, 48); line-height: 1.6">
+obs = ("""Todos esses traços de personalidade estão presentes em cada pessoa. 
+    O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo 
+    com cada nível dos traços de personalidade. Responda às perguntas na barra lateral 
+    para ver a qual grupo corresponde ao seu perfil.""")
+st.write(f"<p style='text-align: justify'>{obs}</p>", unsafe_allow_html=True)
+    # </p>""", height=100)
+st.markdown("""---""")
+
 
 
 
