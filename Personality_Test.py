@@ -4,8 +4,8 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 import streamlit.components.v1 as components
 import plotly.graph_objects as go
-import re
-from screeninfo import get_monitors
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
@@ -47,31 +47,20 @@ data_chart_groups = get_data("data_chart_groups.csv")
 data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilidade","Consciência","Abertura"]
 
 # Gráfico de linhas com seaborn
-# sns.set_theme(style="darkgrid")
-# fig, ax = plt.subplots(figsize=(12, 3))
-# for i in range(5):
-#     ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
-# plt.ylabel("")
-# plt.xticks(rotation=0, size=(14))
-# # plt.ylim(2, 4)
-# plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
-# st.write(fig)
-
-
-for monitor_size in get_monitors():
-    print(str(monitor_size))
-
-#'Monitor(x=1366, y=0, width=1920, height=1080, width_mm=553, height_mm=311, name='HDMI-1')'
-
-screen_width = re.findall(r'(?<=width=)[0-9]{2,5}', str(monitor_size))
-screen_width = int(screen_width[0])
-
-st.write(screen_width)
-
-# valor = ("monitor(1920x1080+1920+0")
-
+sns.set_theme(style="darkgrid")
+fig, ax = plt.subplots(figsize=(12, 3))
+for i in range(5):
+    ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
+plt.ylabel("")
+plt.xticks(rotation=0, size=(14))
+# plt.ylim(2, 4)
+plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
+st.write(fig)
 
 # Gráfico de linhas com plotly
+# Definindo colunas para inserir o gráfico para auto redimencionar
+col1, col2 = st.beta_columns([1,1])
+
 fig = go.Figure()
 for i in range(5):
     fig.add_trace(go.Scatter(x=data_chart_groups.columns[1:], y=list(data_chart_groups.iloc[i, 1:]), mode='lines', name=f'Grupo {i+1}'))
@@ -80,7 +69,7 @@ fig.update_layout(
     font=dict(size=15),
     autosize=False,
     height=260,
-    width=int(screen_width)*.36,
+    #width=int(screen_width)*.36,
     xaxis_title="", 
     margin=dict(l=0, r=0, t=30, b=20)
 )
@@ -89,8 +78,8 @@ fig.update_yaxes(
     range=[2.3, 3.8]
 )
 
+col1.write(fig)
 
-st.write(fig)
 
 
 # components.html("""
@@ -132,7 +121,7 @@ def run_algorithm():
         xaxis_title="", yaxis_title="",
         autosize=False,
         height=300,
-        width=int(screen_width)*.36,
+        #width=int(screen_width)*.36,
     )
     fig.update_yaxes(
         tickvals=[2, 2.5, 3, 3.5, 4],
