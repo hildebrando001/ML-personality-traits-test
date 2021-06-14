@@ -81,10 +81,11 @@ st.plotly_chart(fig,use_container_width=True)
 
 # components.html("""
 #     <p style="text-align: justify; font-family:sans-serif; font-size: 1rem; font-weight: 400; color: rgb(38, 39, 48); line-height: 1.6">
-st.write("""Todos esses traços de personalidade estão presentes em cada pessoa. 
-O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo 
-com cada nível dos traços de personalidade. Responda às perguntas na barra lateral 
-para ver a qual grupo corresponde ao seu perfil.""")
+obs = ("""Todos esses traços de personalidade estão presentes em cada pessoa. 
+    O gráfico de linhas acima mostra cinco grupos de pessoas, de acordo 
+    com cada nível dos traços de personalidade. Responda às perguntas na barra lateral 
+    para ver a qual grupo corresponde ao seu perfil.""")
+st.write(f"<p style='text-align: justify'>{obs}</p>", unsafe_allow_html=True)
     # </p>""", height=100)
 st.markdown("""---""")
 
@@ -127,6 +128,8 @@ def run_algorithm():
     # fig.suptitle(f'Profile Group: {profile_group}')
     # st.write(fig)
     st.plotly_chart(fig,use_container_width=True)
+    
+    st.sidebar.text("Análise concluída!")
 
 
 
@@ -141,13 +144,15 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/extroversion.png")
 with col2:
-    st.write("""
-        (Extroversão) - Pessoas com alto índice de extroversão são extrovertidas e tendem a ganhar energia em situações 
-        sociais. Estar perto de outras pessoas os ajuda a se sentirem energizados e animados. Pessoas com baixa extroversão 
-        (ou introvertidas) tendem a ser mais reservadas e têm menos energia para gastar em ambientes sociais. Os eventos 
-        sociais podem parecer exaustivos e os introvertidos costumam exigir um período de solidão e sossego para 
-        'recarregar as energias'.
+    extroversion = ("""
+        (Extroversão) - Pessoas com alto índice de extroversão são extrovertidas e tendem a ganhar 
+        energia em situações sociais. Estar perto de outras pessoas os ajuda a se sentirem 
+        energizados e animados. Pessoas com baixa extroversão (ou introvertidas) tendem a 
+        ser mais reservadas e têm menos energia para gastar em ambientes sociais. Os eventos 
+        sociais podem parecer exaustivos e os introvertidos costumam exigir um período de 
+        solidão e sossego para 'recarregar as energias'.
         """)
+    col2.write(f"<p style='text-align: justify'>{extroversion}</p>", unsafe_allow_html=True)
     
 st.markdown("""---""")
 col1, col2 = st.beta_columns([1,3])
@@ -155,11 +160,13 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/neuroticism.png")
 with col2:
-    st.write("""(Neuroticismo) - Neuroticismo é um traço caracterizado por tristeza, 
-        mau humor e instabilidade emocional. Indivíduos com alto teor dessa característica tendem a sofrer oscilações 
-        de humor, ansiedade, irritabilidade e tristeza. Aqueles com baixo nível dessa característica tendem a ser mais 
-        estáveis ​​e emocionalmente resilientes.
+    neuroticism = ("""(Neuroticismo) - Neuroticismo é um traço caracterizado por tristeza, 
+        mau humor e instabilidade emocional. Indivíduos com alto teor dessa característica 
+        tendem a sofrer oscilações de humor, ansiedade, irritabilidade e tristeza. Aqueles 
+        com baixo nível dessa característica tendem a ser mais estáveis ​​e emocionalmente 
+        resilientes.
         """)
+    col2.write(f"<p style='text-align: justify'>{neuroticism}</p>", unsafe_allow_html=True)
 
 st.markdown("""---""")
 col1, col2 = st.beta_columns([1,3])
@@ -167,31 +174,41 @@ col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/agreeableness.png")
 with col2:
-    st.write("""
-        (Amabilidade) - Essa dimensão da personalidade inclui atributos como confiança, altruísmo, gentileza, afeto e outros comportamentos pró-sociais. Pessoas com alto nível de gentileza tendem a ser mais cooperativas, enquanto aqueles com baixo nível desse traço tendem a ser mais competitivos e às vezes até manipuladores.
+    agreeableness = ("""
+        (Amabilidade) - Essa dimensão da personalidade inclui atributos como confiança, 
+        altruísmo, gentileza, afeto e outros comportamentos pró-sociais. Pessoas com alto 
+        nível de gentileza tendem a ser mais cooperativas, enquanto aqueles com baixo nível 
+        desse traço tendem a ser mais competitivos e às vezes até manipuladores.
         """)
+    col2.write(f"<p style='text-align: justify'>{agreeableness}</p>", unsafe_allow_html=True)
 
 st.markdown("""---""")
 col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/conscientiousness.png")
 with col2:
-    st.write("""
-        (Consciência) - As características padrão dessa dimensão incluem altos níveis de consideração, bom controle de 
-        impulsos e comportamentos direcionados a objetivos. Pessoas altamente conscienciosas tendem a ser organizadas 
-        e atentas aos detalhes. Eles planejam com antecedência, pensam sobre como seu comportamento afeta os outros e 
+    conscientiousness = ("""
+        (Consciência) - As características padrão dessa dimensão incluem altos níveis de 
+        consideração, bom controle de impulsos e comportamentos direcionados a objetivos. 
+        Pessoas altamente conscienciosas tendem a ser organizadas e atentas aos detalhes. 
+        Eles planejam com antecedência, pensam sobre como seu comportamento afeta os outros e 
         estão atentos aos prazos.
         """)
+    col2.write(f"<p style='text-align: justify'>{conscientiousness}</p>", unsafe_allow_html=True)
 
 st.markdown("""---""")
 col1, col2 = st.beta_columns([1,3])
 
 col1.image("img/openness.png")
 with col2:
-    st.write("""
+    openness = (f"""
         (Abertura) - Esse traço apresenta características como imaginação e percepção.
-        Pessoas com alto valor nesse traço também tendem a ter uma ampla gama de interesses. Eles são curiosos sobre o mundo e outras pessoas e estão ansiosos para aprender coisas novas e desfrutar de novas experiências.
-        Pessoas com alto nível desse atributo tendem a ser mais aventureiras e criativas. Pessoas com baixo nível dessa característica costumam ser muito mais tradicionais e podem ter dificuldades com o pensamento abstrato.
+        Pessoas com alto valor nesse traço também tendem a ter uma ampla gama de interesses. 
+        Eles são curiosos sobre o mundo e outras pessoas e estão ansiosos para aprender coisas 
+        novas e desfrutar de novas experiências. Pessoas com alto nível desse atributo tendem a 
+        ser mais aventureiras e criativas. Pessoas com baixo nível dessa característica costumam 
+        ser muito mais tradicionais e podem ter dificuldades com o pensamento abstrato.
         """)
+    col2.write(f"<p style='text-align: justify'>{openness}</p>", unsafe_allow_html=True)
 
 st.write("fonte: https://www.verywellmind.com/")
