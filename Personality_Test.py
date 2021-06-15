@@ -28,7 +28,7 @@ def get_data(filename):
 
 
 st.sidebar.header('Forneça as respostas')
-st.sidebar.text('(Deslise o ponto para responder)')
+
 
 def user_input_features(qlist):
     questionsDict = {}
