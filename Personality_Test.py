@@ -120,12 +120,9 @@ def run_algorithm():
     
     st.sidebar.text("Análise concluída!")
     
-    with st.sidebar:
-        sidebar.hidden()
 
 
 if st.sidebar.button('Analisar Perfil'):
-    st.sidebar.text("Analisando...")
     run_algorithm()
 
 
