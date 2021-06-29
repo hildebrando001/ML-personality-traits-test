@@ -4,8 +4,6 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 import streamlit.components.v1 as components
 import plotly.graph_objects as go
-# import seaborn as sns
-# import matplotlib.pyplot as plt
 
 # Salva modelo treinado em arquivo no disco
 from joblib import dump, load
@@ -17,8 +15,8 @@ from questions_lists import eng_list, port_list
 # # Five Big Personality Traits
 # """)
 st.markdown("<h1 style='text-align: center'>Teste De Personalidade</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='text-align: center'>Abra o menu lateral para analisar seu perfil</h3>", unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center'>Cinco Grandes Traços De Personalidade</h1>", unsafe_allow_html=True)
+st.markdown("<h4 style='text-align: center'>Abra o menu à esquerda e faça o teste para descobrir a qual grupo de personalidade seu perfil corresponde</h4>", unsafe_allow_html=True)
 
 
 # @st.cache # load data only at the first time
@@ -27,7 +25,8 @@ def get_data(filename):
     return data
 
 
-st.sidebar.header('Forneça as respostas')
+# st.sidebar.header('Forneça as respostas')
+
 
 
 def user_input_features(qlist):
@@ -38,7 +37,12 @@ def user_input_features(qlist):
     return questionsDF
 
 
-user_inputs = user_input_features(port_list)
+with st.sidebar:
+    form = st.form(key='slider_form') #creating the form
+    submit_button = form.form_submit_button(label='Analisar Perfil')
+    with form: #creating the form
+        user_inputs =  user_input_features(port_list)
+
 
 # Carrega modelo treinado
 model = load("model.joblib")
@@ -48,16 +52,7 @@ model = load("model.joblib")
 data_chart_groups = get_data("data_chart_groups.csv")
 data_chart_groups.columns = ["clusters","Extroversão","Neuroticismo","Amabilidade","Consciência","Abertura"]
 
-# Gráfico de linhas com seaborn
-# sns.set_theme(style="darkgrid")
-# fig, ax = plt.subplots(figsize=(12, 3))
-# for i in range(5):
-#     ax = sns.lineplot(data=data_chart_groups, x=data_chart_groups.columns[1:], y=data_chart_groups.iloc[i, 1:])
-# plt.ylabel("")
-# plt.xticks(rotation=0, size=(14))
-# # plt.ylim(2, 4)
-# plt.legend(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4', 'Grupo 5'])
-# st.write(fig)
+
 
 # Gráfico de linhas com plotly
 fig = go.Figure()
@@ -79,6 +74,7 @@ fig.update_yaxes(
 st.plotly_chart(fig,use_container_width=True)
 # st.write(fig)
 
+
 # @st.cache()
 def run_algorithm():
     # Analisa predição em toda base de dados
@@ -94,6 +90,7 @@ def run_algorithm():
     # data['clusters'] = predict
 
     # Compara os dados fornecidos pelo usuário aos perfis esbalecidos anteriormente
+
     profile_group = model.predict(user_inputs)[0] # kmeans
     
     group_ident = f'Seu perfil corresponde ao Grupo {profile_group + 1}'
@@ -116,21 +113,16 @@ def run_algorithm():
     )
     # fig.suptitle(f'Profile Group: {profile_group}')
     # st.write(fig)
+    
     st.plotly_chart(fig,use_container_width=True)
     
     st.sidebar.text("Análise concluída!")
-    
 
 
-if st.sidebar.button('Analisar Perfil'):
+# st.form_submit_button returns True upon form submit
+if submit_button:
     run_algorithm()
 
-
-   
-# btn2 = components.html("""
-# <button kind="icon" class="css-13egkbv edgvbvh6"><svg viewBox="0 0 8 8" aria-hidden="true" focusable="false" fill="currentColor" xmlns="http://www.w3.org/2000/svg" color="inherit" class="e1fb0mya0 css-xq1lnh-EmotionIconBase ex0cdmw0"><path d="M1.41 0L0 1.41l.72.72L2.5 3.94.72 5.72 0 6.41l1.41 1.44.72-.72 1.81-1.81 1.78 1.81.69.72 1.44-1.44-.72-.69-1.81-1.78 1.81-1.81.72-.72L6.41 0l-.69.72L3.94 2.5 2.13.72 1.41 0z"></path></svg></button>
-# """)
-# st.sidebar.write(btn2)
 
 
 
